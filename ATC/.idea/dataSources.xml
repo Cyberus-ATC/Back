@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="atc-2024-cyberus-postgresql-database@atc-2024-postgresql-server.postgres.database.azure.com" uuid="233250ce-2acc-49e6-a8b4-6e04789d4398">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://atc-2024-postgresql-server.postgres.database.azure.com:5432/atc-2024-cyberus-postgresql-database</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+  </component>
+</project>

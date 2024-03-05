@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'ATC.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'atc-2024-cyberus-postgresql-database',
+        'USER': 'cyberus_lgd7hf',
+        'PASSWORD': 'ATC2024!SecurePassword',
+        'HOST': 'atc-2024-postgresql-server.postgres.database.azure.com',
+        'PORT': '5432',
     }
 }
 
