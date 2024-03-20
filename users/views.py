@@ -6,8 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import Role, Organization, CustomUser
-from .serializers import UserSerializer, RoleSerializer, OrganizationSerializer
+from .models import Role, Organization, CustomUser, Department, UserDepartment
+from .serializers import UserSerializer, RoleSerializer, OrganizationSerializer, DepartmentSerializer, UserDepartmentSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -72,3 +72,31 @@ class OrganizationUserListView(generics.ListAPIView):
     def get_queryset(self):
         organization_id = self.kwargs['organization_id']
         return CustomUser.objects.filter(organization_id=organization_id)
+
+class DepartmentListCreateView(generics.ListCreateAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = [IsAuthenticated]
+
+class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    permission_classes = [IsAuthenticated]
+
+class UserDepartmentListCreateView(generics.ListCreateAPIView):
+    queryset = UserDepartment.objects.all()
+    serializer_class = UserDepartmentSerializer
+    permission_classes = [IsAuthenticated]
+
+class UserDepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserDepartment.objects.all()
+    serializer_class = UserDepartmentSerializer
+    permission_classes = [IsAuthenticated]
+
+class OrganizationDepartmentListView(generics.ListAPIView):
+    serializer_class = DepartmentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        organization_id = self.kwargs['organization_id']
+        return Department.objects.filter(organization_id=organization_id)

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-_97e2054ke#h9^0ltmse5^*g(6h&%zwba9k^^5@ls-!jl5!3r#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['atc-back.yirade.dev']
+ALLOWED_HOSTS = ['atc-back.yirade.dev', 'localhost']
 
 
 # Application definition

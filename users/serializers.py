@@ -1,7 +1,7 @@
 # users/serializers.py
 
 from rest_framework import serializers
-from .models import CustomUser, Role, Organization
+from .models import CustomUser, Role, Organization, Department, UserDepartment
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,4 +38,21 @@ class RoleSerializer(serializers.ModelSerializer):
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
+        fields = '__all__'
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
+
+class UserDepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDepartment
+        fields = '__all__'
+
+class DepartmentSerializer(serializers.ModelSerializer):
+    organization = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Department
         fields = '__all__'
