@@ -1,7 +1,7 @@
 # users/serializers.py
 
 from rest_framework import serializers
-from .models import CustomUser, Role, Organization, Department, UserDepartment
+from .models import CustomUser, Role, Organization, Department, UserDepartment, Skill, UserSkill, DepartmentSkill, SkillCategory
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)  # Rimuovi 'password' dai dati validati
+        password = validated_data.pop('password', None)
         user = CustomUser.objects.create_user(
             **validated_data
         )
@@ -55,4 +55,22 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Department
+        fields = '__all__'
+
+class SkillSerializer(serializers.ModelSerializer):
+    category = serializers.PrimaryKeyRelatedField(queryset=SkillCategory.objects.all())
+    created_by = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+
+    class Meta:
+        model = Skill
+        fields = '__all__'
+
+class UserSkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSkill
+        fields = '__all__'
+
+class DepartmentSkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DepartmentSkill
         fields = '__all__'

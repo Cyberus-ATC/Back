@@ -6,8 +6,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from .models import Role, Organization, CustomUser, Department, UserDepartment
-from .serializers import UserSerializer, RoleSerializer, OrganizationSerializer, DepartmentSerializer, UserDepartmentSerializer
+from .models import Role, Organization, CustomUser, Department, UserDepartment, Skill, UserSkill, DepartmentSkill
+from .serializers import UserSerializer, RoleSerializer, OrganizationSerializer, DepartmentSerializer, UserDepartmentSerializer, SkillSerializer, UserSkillSerializer, DepartmentSkillSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 class MyTokenObtainPairView(TokenObtainPairView):
@@ -100,3 +100,53 @@ class OrganizationDepartmentListView(generics.ListAPIView):
     def get_queryset(self):
         organization_id = self.kwargs['organization_id']
         return Department.objects.filter(organization_id=organization_id)
+
+class SkillListCreateView(generics.ListCreateAPIView):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
+    permission_classes = [IsAuthenticated]
+
+class SkillDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
+    permission_classes = [IsAuthenticated]
+
+class UserSkillListCreateView(generics.ListCreateAPIView):
+    queryset = UserSkill.objects.all()
+    serializer_class = UserSkillSerializer
+    permission_classes = [IsAuthenticated]
+
+class UserSkillDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserSkill.objects.all()
+    serializer_class = UserSkillSerializer
+    permission_classes = [IsAuthenticated]
+
+class DepartmentSkillListCreateView(generics.ListCreateAPIView):
+    queryset = DepartmentSkill.objects.all()
+    serializer_class = DepartmentSkillSerializer
+    permission_classes = [IsAuthenticated]
+
+class DepartmentSkillDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DepartmentSkill.objects.all()
+    serializer_class = DepartmentSkillSerializer
+    permission_classes = [IsAuthenticated]
+
+class DepartmentSkillListView(generics.ListAPIView):
+    serializer_class = SkillSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        department_id = self.kwargs['department_id']
+        return Skill.objects.filter(department_id=department_id)
+
+class OrganizationUserSkillListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        organization_id = self.kwargs['organization_id']
+        skill_id = self.kwargs['skill_id']
+
+        user_ids = UserSkill.objects.filter(skill_id=skill_id).values_list('user_id', flat=True)
+
+        return CustomUser.objects.filter(organization_id=organization_id, id__in=user_ids)

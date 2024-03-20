@@ -59,3 +59,35 @@ class UserDepartment(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.department}"
+
+class SkillCategory(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+class Skill(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, blank=True, null=True)
+    category = models.ForeignKey(SkillCategory, on_delete=models.CASCADE, blank=True, null=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+class UserSkill(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
+    level = models.IntegerField(default=1)
+    experience = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user} - {self.skill}"
+
+class DepartmentSkill(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.department} - {self.skill}"
