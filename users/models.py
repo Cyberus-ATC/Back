@@ -62,6 +62,7 @@ class UserDepartment(models.Model):
 
 class SkillCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -91,3 +92,41 @@ class DepartmentSkill(models.Model):
 
     def __str__(self):
         return f"{self.department} - {self.skill}"
+
+class TechnologyStack(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Project(models.Model):
+    project_name = models.CharField(max_length=255)
+    project_period = models.IntegerField()
+    start_date = models.DateField()
+    deadline_date = models.DateField()
+    project_status = models.CharField(max_length=255)
+    description = models.TextField()
+    technology_stack = models.ManyToManyField(TechnologyStack)
+    team_members = models.ManyToManyField(CustomUser, through='ProjectTeamMember')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.project_name
+
+class ProjectTeamMember(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    team_member = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.project} - {self.team_member}"
+
+class TechnologyStackSkill(models.Model):
+    technology_stack = models.ForeignKey(TechnologyStack, on_delete=models.CASCADE)
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
+    category = models.ForeignKey(SkillCategory, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.technology_stack} - {self.skill}"
