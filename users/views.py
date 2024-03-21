@@ -34,7 +34,7 @@ from .serializers import (
     ProjectSerializer,
     ProjectTeamMemberSerializer,
     TechnologyStackSkillSerializer,
-    SkillCategoryListCreateView,
+    SkillCategorySerializer,
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -297,5 +297,5 @@ class TeamFinderView(generics.RetrieveAPIView):
 
 class SkillCategoryListCreateView(generics.ListCreateAPIView):
     queryset = SkillCategory.objects.all()
-    serializer_class = SkillCategoryListCreateView
+    serializer_class = SkillListCreateView
     permission_classes = [IsAuthenticated]
