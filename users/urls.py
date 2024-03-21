@@ -32,6 +32,9 @@ from .views import (
     OrganizationProjectListView,
     DepartmentProjectListView,
     TeamFinderView,
+    OrganizationUserListView,
+    UserDepartmentListView,
+    SkillCategoryListCreateView,
 )
 
 urlpatterns = [
@@ -63,6 +66,7 @@ urlpatterns = [
     # Skills URLs
     path('skills/', SkillListCreateView.as_view(), name='skill-list-create'),
     path('skills/<int:pk>/', SkillDetailView.as_view(), name='skill-detail'),
+    path('skill_categories/', SkillCategoryListCreateView.as_view(), name='skill-category-list-create'),
 
     # User-Skills URLs
     path('userskills/', UserSkillListCreateView.as_view(), name='userskill-list-create'),
@@ -71,6 +75,7 @@ urlpatterns = [
     # User-Departments URLs
     path('userdepartments/', UserDepartmentListCreateView.as_view(), name='userdepartment-list-create'),
     path('userdepartments/<int:pk>/', UserDepartmentDetailView.as_view(), name='userdepartment-detail'),
+    path('departments/<int:department_id>/users/', UserDepartmentListView.as_view(), name='department-users-list'),
 
     # Projects URLs
     path('technology_stacks/', TechnologyStackListView.as_view(), name='technology-stack-list'),

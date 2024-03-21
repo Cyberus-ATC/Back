@@ -19,6 +19,7 @@ from .models import (
     Project,
     ProjectTeamMember,
     TechnologyStackSkill,
+    SkillCategory,
 )
 from .serializers import (
     UserSerializer,
@@ -33,6 +34,7 @@ from .serializers import (
     ProjectSerializer,
     ProjectTeamMemberSerializer,
     TechnologyStackSkillSerializer,
+    SkillCategoryListCreateView,
 )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -136,6 +138,13 @@ class UserDepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserDepartmentSerializer
     permission_classes = [IsAuthenticated]
 
+class UserDepartmentListView(generics.ListAPIView):
+    serializer_class = UserDepartmentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        department_id = self.kwargs['department_id']
+        return UserDepartment.objects.filter(department_id=department_id)
 
 class OrganizationDepartmentListView(generics.ListAPIView):
     serializer_class = DepartmentSerializer
@@ -231,14 +240,6 @@ class TechnologyStackSkillListView(generics.ListCreateAPIView):
     serializer_class = TechnologyStackSkillSerializer
     permission_classes = [IsAuthenticated]
 
-
-from rest_framework import generics
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from .models import Project, ProjectTeamMember
-from .serializers import ProjectSerializer, ProjectTeamMemberSerializer
-
-
 class OrganizationProjectListView(generics.ListAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
@@ -293,3 +294,8 @@ class TeamFinderView(generics.RetrieveAPIView):
         }
 
         return Response(data)
+
+class SkillCategoryListCreateView(generics.ListCreateAPIView):
+    queryset = SkillCategory.objects.all()
+    serializer_class = SkillCategoryListCreateView
+    permission_classes = [IsAuthenticated]

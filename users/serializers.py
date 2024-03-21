@@ -72,6 +72,10 @@ class DepartmentSerializer(serializers.ModelSerializer):
         model = Department
         fields = "__all__"
 
+class UserDepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDepartment
+        fields = '__all__'
 
 class UserDepartmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -80,7 +84,7 @@ class UserDepartmentSerializer(serializers.ModelSerializer):
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
-    organization = serializers.PrimaryKeyRelatedField(read_only=True)
+    #organization = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Department
@@ -130,3 +134,8 @@ class TechnologyStackSkillSerializer(serializers.ModelSerializer):
     class Meta:
         model = TechnologyStackSkill
         fields = "__all__"
+
+class SkillCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SkillCategory
+        fields = '__all__'

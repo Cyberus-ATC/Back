@@ -45,8 +45,8 @@ class CustomUser(AbstractUser):
     )
 
 class Department(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    department_manager = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='organization')
+    department_manager = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='department_manager')
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
 
@@ -103,11 +103,11 @@ class TechnologyStack(models.Model):
 
 class Project(models.Model):
     project_name = models.CharField(max_length=255)
-    project_period = models.IntegerField()
-    start_date = models.DateField()
-    deadline_date = models.DateField()
-    project_status = models.CharField(max_length=255)
-    description = models.TextField()
+    project_period = models.IntegerField(blank=True, null=True)
+    start_date = models.DateField(blank=True, null=True)
+    deadline_date = models.DateField(blank=True, null=True)
+    project_status = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     technology_stack = models.ManyToManyField(TechnologyStack)
     team_members = models.ManyToManyField(CustomUser, through='ProjectTeamMember')
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
